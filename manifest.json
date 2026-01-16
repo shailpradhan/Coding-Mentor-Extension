@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "AI Code Mentor",
+  "version": "1.0",
+  "description": "Your AI-powered coding assistant for LeetCode right in the browser",
+  "action": {
+    "default_title": "AI Code Assistant"
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "src/background.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/content_scripts/content.ts"
+      ]
+    }
+  ],
+  "commands": {
+    "open-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Z",
+        "mac": "Command+Shift+Z"
+      },
+      "description": "Open AI Code Mentor"
+    }
+  }
+}
