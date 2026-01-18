@@ -1,52 +1,20 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import { FaBookmark, FaCodepen } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { FaCodepen } from "react-icons/fa";
-
-const actionSx = {
-  color: "text.secondary",
-  minWidth: 0,
-  padding: "8px 0",
-  transition: "color 0.3s ease",
-
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-
-  "& svg": {
-    transition: "transform 0.25s ease",
-  },
-
-  "& .MuiBottomNavigationAction-label": {
-    fontSize: "0.7rem",
-    marginTop: "4px",
-    transition: "opacity 0.25s ease, transform 0.25s ease",
-  },
-
-  "&.Mui-selected": {
-    color: "primary.main",
-
-    "& svg": {
-      transform: "translateY(-3px) scale(1.05)",
-    },
-
-    "& .MuiBottomNavigationAction-label": {
-      transform: "scale(1.05)",
-    },
-  },
-
-  "&:focus": {
-    outline: "none",
-  },
-};
+import { actionSx } from "./styles/navbar-styles";
 
 export default function Navigation() {
-  const [value, setValue] = React.useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handlePageChange = (_: unknown, newValue: string) => {
+    if (newValue !== location.pathname) {
+      navigate(newValue);
+    }
+  };
 
   return (
     <Box
@@ -54,16 +22,20 @@ export default function Navigation() {
         width: "100%",
         display: "flex",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <BottomNavigation
         showLabels
-        value={value}
-        onChange={(_, newValue) => setValue(newValue)}
+        value={location.pathname}
+        onChange={handlePageChange}
         sx={{
           width: "100%",
           px: { xs: 3, sm: 4 },
           gap: { xs: 3, sm: 4 },
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           background: "rgba(2,6,23,0.95)",
           borderTop: "1px solid rgba(129,140,248,0.25)",
           borderRadius: "16px",
@@ -71,22 +43,17 @@ export default function Navigation() {
       >
         <BottomNavigationAction
           label="Hints"
+          value="/"
           disableRipple
           icon={<FaCodepen size={20} />}
           sx={actionSx}
         />
 
         <BottomNavigationAction
-          label="Favorites"
+          label="Saved"
+          value="/saved"
           disableRipple
-          icon={<FavoriteIcon />}
-          sx={actionSx}
-        />
-
-        <BottomNavigationAction
-          label="Nearby"
-          disableRipple
-          icon={<LocationOnIcon />}
+          icon={<FaBookmark size={20} />}
           sx={actionSx}
         />
       </BottomNavigation>

@@ -1,3 +1,31 @@
+# AI Coding Mentor Extension
+
+## Troubleshooting: "Chrome AI is not available"
+
+If you see an error saying **"Chrome AI is not available"**, follow these steps to enable the built-in AI model in Google Chrome:
+
+1.  **Use Chrome Canary or Dev Channel**:
+    - This feature is currently experimental. Ensure you are using Chrome version **127+** (Canary recommended).
+
+2.  **Enable Flags**:
+    - Open `chrome://flags` in a new tab.
+    - Search for **"Prompt API for Gemini Nano"**.
+    - Set it to **"Enabled"**.
+    - Search for **"Optimization Guide On Device Model"**.
+    - Set it to **"Enabled BypassPerfRequirement"**.
+
+3.  **Download the Model**:
+    - After enabling flags, relaunch Chrome.
+    - Go to `chrome://components`.
+    - Find **"Optimization Guide On Device Model"**.
+    - Click **"Check for update"** to trigger the download.
+    - Wait until it says "Up-to-date" or shows a version number.
+
+4.  **Restart Chrome**:
+    - A full restart is often required after the model downloads.
+
+## Development
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -17,9 +45,9 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
 
@@ -34,40 +62,40 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
       // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
+      reactX.configs["recommended-typescript"],
       // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```

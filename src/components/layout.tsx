@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
 import { useRef, useLayoutEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 
-import ChatInterface from "./chat-interface";
 import Navigation from "./bottom-navigation";
 
 export default function Layout() {
   const navRef = useRef<HTMLDivElement>(null);
   const [navHeight, setNavHeight] = useState(0);
 
-  // calculate nav height at runtime
   useLayoutEffect(() => {
     if (navRef.current) {
       setNavHeight(navRef.current.offsetHeight);
@@ -20,7 +19,10 @@ export default function Layout() {
       <Box
         sx={{
           height: "100vh",
-          pb: {xs: `${navHeight}px`, sm: `${navHeight + 16}px`,},
+          pb: {
+            xs: `${navHeight}px`,
+            sm: `${navHeight + 16}px`,
+          },
           display: "flex",
           width: "100%",
           px: { sm: 4 },
@@ -29,7 +31,8 @@ export default function Layout() {
           flexDirection: "column",
         }}
       >
-        <ChatInterface />
+        {/* Routed page content */}
+        <Outlet />
       </Box>
 
       <Box

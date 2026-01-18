@@ -1,6 +1,6 @@
 import type { LeetCodeProblem } from "../types/types";
 
-const LEETCODE_GRAPHQL_URL = "https://leetcode.com/graphql";
+const LEETCODE_GRAPHQL_URL = import.meta.env.VITE_LEETCODE_GRAPHQL_URL;
 
 const QUESTION_QUERY = `
   query questionData($titleSlug: String!) {
@@ -16,30 +16,76 @@ const QUESTION_QUERY = `
   }
 `;
 
-export async function fetchLeetCodeProblem(titleSlug: string): Promise<LeetCodeProblem | null> {
-  try {
-    const response = await fetch(LEETCODE_GRAPHQL_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: QUESTION_QUERY,
-        variables: { titleSlug },
-      }),
-    });
+const REQUEST_TIMEOUT = 8000;
+const MAX_RETRIES = 2;
 
-    if (!response.ok) {
-      console.error("Failed to fetch LeetCode problem:", response.statusText);
+async function fetchWithTimeout(
+  input: RequestInfo,
+  init: RequestInit,
+  timeoutMs: number,
+): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(input, {
+      ...init,
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+export async function fetchLeetCodeProblem(
+  titleSlug: string,
+): Promise<LeetCodeProblem | null> {
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const response = await fetchWithTimeout(
+        LEETCODE_GRAPHQL_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            query: QUESTION_QUERY,
+            variables: { titleSlug },
+          }),
+        },
+        REQUEST_TIMEOUT,
+      );
+
+      if (!response.ok) {
+        // Retry only on gateway / server issues
+        if (response.status >= 500 && attempt < MAX_RETRIES) {
+          continue;
+        }
+
+        console.warn(
+          "LeetCode request failed:",
+          response.status,
+          response.statusText,
+        );
+        return null;
+      }
+
+      const data = await response.json();
+      return data.data?.question ?? null;
+    } catch (error) {
+      // AbortError or network error
+      if (attempt < MAX_RETRIES) {
+        continue;
+      }
+
+      console.warn("LeetCode request error:", error);
       return null;
     }
-
-    const data = await response.json();
-    return data.data?.question || null;
-  } catch (error) {
-    console.error("Error fetching LeetCode problem:", error);
-    return null;
   }
+
+  return null;
 }
 
 export function extractTitleSlug(url: string): string | null {

@@ -6,8 +6,15 @@
   "action": {
     "default_title": "AI Code Assistant"
   },
+  "icons": {
+    "16": "public/icons/brain-lightning-16.png",
+    "32": "public/icons/brain-lightning-32.png",
+    "48": "public/icons/brain-lightning-48.png",
+    "128": "public/icons/brain-lightning-128.png"
+  },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "background": {
     "service_worker": "src/background.ts",

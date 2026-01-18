@@ -1,8 +1,11 @@
-import Layout from "./components/layout";
+import { HashRouter } from "react-router-dom";
+import AppRoutes from "./routes/routes";
 
 function App() {
   return (
-    <Layout />
+    <HashRouter>
+      <AppRoutes />
+    </HashRouter>
   );
 }
 
