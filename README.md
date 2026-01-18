@@ -24,6 +24,12 @@ If you see an error saying **"Chrome AI is not available"**, follow these steps 
 4.  **Restart Chrome**:
     - A full restart is often required after the model downloads.
 
+5.  **Start Extension**:
+    - Install dependencies and build the app. 
+    - Run: `npm run build`
+    - Enable **Developer Mode** in your browser’s extensions page.
+    - Click **Load unpacked** and select the `dist` folder.
+
 ## Development
 
 # React + TypeScript + Vite

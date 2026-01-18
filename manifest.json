@@ -12,6 +12,7 @@
     "48": "public/icons/brain-lightning-48.png",
     "128": "public/icons/brain-lightning-128.png"
   },
+  "host_permissions": ["https://leetcode.com/*"],
   "permissions": [
     "activeTab",
     "storage"
@@ -23,7 +24,7 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "https://leetcode.com/problems/*"
       ],
       "js": [
         "src/content_scripts/content.ts"
