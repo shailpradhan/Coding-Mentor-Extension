@@ -1,8 +1,9 @@
 import type { LeetCodeProblem } from "../types/types";
 
-const LEETCODE_GRAPHQL_URL = import.meta.env.VITE_LEETCODE_GRAPHQL_URL;
+const LEETCODE_GRAPHQL_URL =
+  import.meta.env.VITE_LEETCODE_GRAPHQL_URL || "https://leetcode.com/graphql";
 
-const QUESTION_QUERY = `
+const QUESTION_QUERY = `      
   query questionData($titleSlug: String!) {
     question(titleSlug: $titleSlug) {
       questionId
