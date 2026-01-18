@@ -15,6 +15,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # IMPORTANT for branch checks
+
+      - name: Ensure tag is from prod branch
+        run: |
+          TAG_COMMIT=$(git rev-list -n 1 $GITHUB_REF_NAME)
+          PROD_COMMIT=$(git rev-parse origin/prod)
+
+          if [ "$TAG_COMMIT" != "$PROD_COMMIT" ]; then
+            echo "Tag is not on prod branch. Aborting release."
+            exit 1
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
