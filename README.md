@@ -12,7 +12,7 @@ If you see an error saying **"Chrome AI is not available"**, follow these steps 
     - Search for **"Prompt API for Gemini Nano"**.
     - Set it to **"Enabled"**.
     - Search for **"Optimization Guide On Device Model"**.
-    - Set it to **"Enabled BypassPerfRequirement"**.
+    - Set it to **"Enabled"**.
 
 3.  **Download the Model**:
     - After enabling flags, relaunch Chrome.
@@ -23,6 +23,7 @@ If you see an error saying **"Chrome AI is not available"**, follow these steps 
 
 4.  **Restart Chrome**:
     - A full restart is often required after the model downloads.
+    - Wait for the model to install. 40-60s depending on internet speed.
 
 5.  **Start Extension**:
     - Install dependencies and build the app. 
