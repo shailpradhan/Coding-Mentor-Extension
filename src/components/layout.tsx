@@ -1,12 +1,17 @@
 import { Box } from "@mui/material";
-import { useRef, useLayoutEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { lazy, Suspense, useRef, useLayoutEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import Navigation from "./bottom-navigation";
+
+const ChatInterface = lazy(() => import("./chat-interface"));
+const SavedChats = lazy(() => import("./saved-chats"));
 
 export default function Layout() {
   const navRef = useRef<HTMLDivElement>(null);
   const [navHeight, setNavHeight] = useState(0);
+  const { pathname } = useLocation();
+  const isSavedPage = pathname === "/saved";
 
   useLayoutEffect(() => {
     if (navRef.current) {
@@ -32,7 +37,24 @@ export default function Layout() {
         }}
       >
         {/* Routed page content */}
-        <Outlet />
+        <Box
+          sx={{
+            height: "100%",
+            display: isSavedPage ? "none" : "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Suspense fallback={null}>
+            <ChatInterface />
+          </Suspense>
+        </Box>
+        {isSavedPage && (
+          <Suspense fallback={null}>
+            <Box sx={{ height: "100%" }}>
+              <SavedChats />
+            </Box>
+          </Suspense>
+        )}
       </Box>
 
       <Box
